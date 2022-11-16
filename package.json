@@ -5,6 +5,7 @@
     "ilmlf-e2e-test": "bin/ilmlf-e2e-test.js"
   },
   "scripts": {
+    "deploy": "cdk deploy",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
