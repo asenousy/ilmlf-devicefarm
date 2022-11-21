@@ -1,14 +1,21 @@
-# Welcome to your CDK TypeScript project
+# E2E Testing with Device Farm
 
-This is a blank project for CDK development with TypeScript.
+This solution demonstrates how to use device farm for end to end web testing on mobile devices as part of cicd pipeline, using CDK in Typescript. The solution accompanies [this blog post](https://medium.com/i-love-my-local-farmer-engineering-blog/dns-multi-account-management-using-cdk-6394ef295eee) from the [I Love My Local Farmer Engineering Blog Series](https://medium.com/i-love-my-local-farmer-engineering-blog).
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This README.md contains only architecture and deployment steps. For more details, please check the blog post
 
-## Useful commands
+# Pre-requisites
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+1. **AWS CLI v2:** with AWS credentials configured (See steps [here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_prerequisites))
+1. **AWS CDK (v. 2.2.0 or higher):** for infrastructure and code deployment (See installation steps [here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install)
+
+# Deployment Steps
+
+```
+npm install
+npm run deploy
+```
+
+# Architecture
+
+![Architecture](doc/architecture.png)
