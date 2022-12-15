@@ -1,5 +1,16 @@
 import { Construct } from 'constructs';
-import { Stack, StackProps, aws_iam, custom_resources, aws_codepipeline, aws_codecommit, aws_s3, aws_codebuild, Fn } from 'aws-cdk-lib';
+import {
+  Stack,
+  StackProps,
+  aws_iam,
+  custom_resources,
+  aws_codepipeline,
+  aws_codecommit,
+  aws_s3,
+  aws_codebuild,
+  Fn,
+  aws_events_targets,
+} from 'aws-cdk-lib';
 
 export class IlmlfE2ETestStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -90,9 +101,11 @@ export class IlmlfE2ETestStack extends Stack {
     codebuild.role?.addManagedPolicy(aws_iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
 
     const bucket = new aws_s3.Bucket(this, 'PipelineBucket');
+
+    const codepipelineName = 'DeviceFarmPipeline';
     const codepipeline = new aws_codepipeline.CfnPipeline(this, 'Pipeline', {
       artifactStore: { type: 'S3', location: bucket.bucketName },
-      name: 'cfn',
+      name: codepipelineName,
       roleArn: pipelineRole.roleArn,
       stages: [
         {
@@ -173,6 +186,12 @@ export class IlmlfE2ETestStack extends Stack {
           ],
         },
       ],
+    });
+    repo.onCommit('OnCommit', {
+      target: new aws_events_targets.CodePipeline(
+        aws_codepipeline.Pipeline.fromPipelineArn(this, 'CodePipeline', `arn:aws:codepipeline:${this.region}:${this.account}:${codepipelineName}`)
+      ),
+      branches: ['main'],
     });
   }
 }
